@@ -1,6 +1,6 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Кирилл Леухин](https://up.htmlacademy.ru/javascript/33/user/2250829).
+* Студент: [Кирилл Леухин](https://up.htmlacademy.ru/javascript/33/user/2250829)
 * Наставник: [Наставник](https://htmlacademy.ru/profile/id342945).
 
 ---
