@@ -1,0 +1,1 @@
+import { createSimilarImages } from 'data';
