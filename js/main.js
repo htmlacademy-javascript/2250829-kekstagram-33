@@ -1,1 +1,1 @@
-import { createSimilarImages } from "./data";
+import { createSimilarImages } from 'data';
