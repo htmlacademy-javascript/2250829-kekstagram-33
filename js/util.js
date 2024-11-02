@@ -25,4 +25,4 @@ const getRandomArrayIndex = function(currentArray) {
   return getRandomNumber(0, currentArray.length - 1);
 };
 
-export {getRandomNumber, getRandomId, getRandomArrayIndex}
+export {getRandomNumber, getRandomId, getRandomArrayIndex};
