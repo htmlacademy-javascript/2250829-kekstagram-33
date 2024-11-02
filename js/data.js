@@ -47,8 +47,7 @@ const createImageData = function() {
 };
 
 const similarImages = Array.from({length: PHOTOS_NUMBER}, createImageData);
-const createSimilarImages = () => {
-  return similarImages;
-}
+const createSimilarImages = () => similarImages;
+
 
 export {createSimilarImages}
