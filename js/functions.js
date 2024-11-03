@@ -25,3 +25,21 @@ const mergeNumbers = function(currentString) {
   return finishedNumber === '' ? NaN : Number(finishedNumber);
 };
 mergeNumbers('Столетняя война длилась 116 лет, а не 100, как считают многие');
+
+//Проверка, не выходит ли встреча за рамки рабочего дня
+const checkIfMeetingAbroadWorkDay = function (dayStartTime, dayEndTime, meetingStartTime, meetingLength) {
+  const dayStartTimeFormat = dayStartTime.split(':');
+  const dayEndTimeFormat = dayEndTime.split(':');
+  const meetingStartTimeFormat = meetingStartTime.split(':');
+  const dayStartInMinutes = Number(dayStartTimeFormat[0]) * 60 + Number(dayStartTimeFormat[1]);
+  const dayEndInMinutes = Number(dayEndTimeFormat[0]) * 60 + Number(dayEndTimeFormat[1]);
+  const meetingStartInMinutes = Number(meetingStartTimeFormat[0]) * 60 + Number(meetingStartTimeFormat[1]);
+
+  if (dayEndInMinutes - dayStartInMinutes < 0) {
+    return 'Такого рабочего дня быть не может';
+  }
+
+  return dayEndInMinutes - meetingStartInMinutes >= meetingLength && meetingStartInMinutes >= dayStartInMinutes;
+};
+
+export {checkIfMeetingAbroadWorkDay};
