@@ -7,7 +7,7 @@ const pictureLink = pictureTemplate.querySelector('.picture');
 const imagesFragment = document.createDocumentFragment();
 
 
-generatedImages.forEach(({url, description, likes, comments}) => {
+const createImage = function ({url, description, likes, comments}) {
   const pictureLinkCloned = pictureLink.cloneNode(true);
   const pictureImg = pictureLinkCloned.querySelector('.picture__img');
   pictureImg.src = url;
@@ -15,7 +15,14 @@ generatedImages.forEach(({url, description, likes, comments}) => {
   const pictureInfo = pictureLinkCloned.querySelector('.picture__info');
   pictureInfo.querySelector('.picture__likes').textContent = likes;
   pictureInfo.querySelector('.picture__comments').textContent = comments.length;
-  imagesFragment.append(pictureLinkCloned);
+
+  return pictureLinkCloned;
+};
+
+generatedImages.forEach(({url, description, likes, comments}) => {
+  const newImage = createImage({url, description, likes, comments});
+  imagesFragment.append(newImage);
 });
 
 picturesContainer.append(imagesFragment);
+

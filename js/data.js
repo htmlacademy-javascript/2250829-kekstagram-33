@@ -49,7 +49,6 @@ const createImageData = function (count) {
 
 const createSimilarImages = function (count) {
   const imageData = createImageData(count);
-
   return Array.from({length: count}, imageData);
 };
 
