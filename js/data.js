@@ -21,13 +21,9 @@ const PHOTOS_DESCRIPTIONS = [
   'Солнечные лучи пробиваются сквозь легкий туман над водой, а утки плывут, оставляя за собой спокойные волны.',
   'Ясное ночное небо, наполненное тысячами звезд, будто приглашает в бескрайние космические просторы.'
 ];
-const PHOTOS_NUMBER = 25;
-
-const createdPhotoId = getRandomId(1, PHOTOS_NUMBER);
-const createdAuthorId = getRandomId(0, Number.MAX_SAFE_INTEGER);
-const createdUrlId = getRandomId(1, PHOTOS_NUMBER);
 
 const createComment = function() {
+  const createdAuthorId = getRandomId(0, Number.MAX_SAFE_INTEGER);
   return {
     id: createdAuthorId(),
     avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
@@ -36,17 +32,25 @@ const createComment = function() {
   };
 };
 
-const createImageData = function() {
-  return {
-    id: createdPhotoId(),
-    url: `photos/${createdUrlId()}.jpg`,
-    description: PHOTOS_DESCRIPTIONS[getRandomArrayIndex(PHOTOS_DESCRIPTIONS)],
-    likes: getRandomNumber(15, 200),
-    comments: Array.from({length: getRandomNumber(0, 30)}, createComment)
+const createImageData = function (count) {
+  const createdPhotoId = getRandomId(1, count);
+  const createdUrlId = getRandomId(1, count);
+
+  return function () {
+    return {
+      id: createdPhotoId(),
+      url: `photos/${createdUrlId()}.jpg`,
+      description: PHOTOS_DESCRIPTIONS[getRandomArrayIndex(PHOTOS_DESCRIPTIONS)],
+      likes: getRandomNumber(15, 200),
+      comments: Array.from({length: getRandomNumber(0, 30)}, createComment)
+    };
   };
 };
 
-const similarImages = Array.from({length: PHOTOS_NUMBER}, createImageData);
-const createSimilarImages = () => similarImages;
+const createSimilarImages = function (count) {
+  const imageData = createImageData(count);
+
+  return Array.from({length: count}, imageData);
+};
 
 export {createSimilarImages};
