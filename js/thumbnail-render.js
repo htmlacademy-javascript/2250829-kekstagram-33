@@ -7,22 +7,23 @@ const pictureLink = pictureTemplate.querySelector('.picture');
 const imagesFragment = document.createDocumentFragment();
 
 
-const createImage = function ({url, description, likes, comments}) {
+const createImage = (picture) => {
   const pictureLinkCloned = pictureLink.cloneNode(true);
   const pictureImg = pictureLinkCloned.querySelector('.picture__img');
-  pictureImg.src = url;
-  pictureImg.alt = description;
+  pictureImg.src = picture.url;
+  pictureImg.alt = picture.description;
   const pictureInfo = pictureLinkCloned.querySelector('.picture__info');
-  pictureInfo.querySelector('.picture__likes').textContent = likes;
-  pictureInfo.querySelector('.picture__comments').textContent = comments.length;
+  pictureInfo.querySelector('.picture__likes').textContent = picture.likes;
+  pictureInfo.querySelector('.picture__comments').textContent = picture.comments.length;
+  pictureLinkCloned.myComments = picture.comments;
+  pictureLinkCloned.myId = picture.id;
 
   return pictureLinkCloned;
 };
 
-generatedImages.forEach(({url, description, likes, comments}) => {
-  const newImage = createImage({url, description, likes, comments});
+generatedImages.forEach((picture) => {
+  const newImage = createImage(picture);
   imagesFragment.append(newImage);
 });
 
 picturesContainer.append(imagesFragment);
-

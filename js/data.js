@@ -1,6 +1,7 @@
 import {getRandomNumber, getRandomId, getRandomArrayIndex} from './util.js';
 
 const AUTHORS_NAMES = ['Василий', 'Федор', 'Иван', 'Кирилл', 'Артём', 'Анна', 'Светлана', 'Марина', 'Вероника', 'Ирина'];
+
 const COMMENTS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',

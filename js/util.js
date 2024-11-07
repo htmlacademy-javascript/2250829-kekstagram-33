@@ -25,4 +25,6 @@ const getRandomArrayIndex = function(currentArray) {
   return getRandomNumber(0, currentArray.length - 1);
 };
 
-export {getRandomNumber, getRandomId, getRandomArrayIndex};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomNumber, getRandomId, getRandomArrayIndex, isEscapeKey};
