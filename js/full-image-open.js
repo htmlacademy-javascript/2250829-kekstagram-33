@@ -13,7 +13,7 @@ const onCommentsLoaderClick = () => {
   socialCommentShownCountNumber += 5;
   socialCommentShownCount.textContent = socialCommentShownCountNumber;
 
-  if (socialCommentShownCountNumber > Number(socialCommentTotalCount.textContent)) {
+  if (socialCommentShownCountNumber >= Number(socialCommentTotalCount.textContent)) {
     socialCommentShownCount.textContent = socialCommentTotalCount.textContent;
     commentsLoader.classList.add('hidden');
   }
@@ -37,7 +37,7 @@ const openImageModal = (evt) => {
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
   renderFullImage(evt);
-  if (Number(socialCommentTotalCount.textContent) < 5) {
+  if (Number(socialCommentTotalCount.textContent) <= 5) {
     socialCommentShownCount.textContent = socialCommentTotalCount.textContent;
     commentsLoader.classList.add('hidden');
   }
