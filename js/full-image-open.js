@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { socialCommentsList, socialCommentTotalCount } from './render-comments.js';
+import { socialCommentsList, socialCommentTotalCount, renderComments } from './render-comments.js';
 import { renderFullImage } from './full-image-render.js';
 
 const bigPicture = document.querySelector('.big-picture');
@@ -8,8 +8,10 @@ const pictureLinks = document.querySelectorAll('.picture');
 const socialCommentShownCount = document.querySelector('.social__comment-shown-count');
 let socialCommentShownCountNumber = Number(socialCommentShownCount.textContent);
 const commentsLoader = document.querySelector('.comments-loader');
+let bigImageComments = [];
 
 const onCommentsLoaderClick = () => {
+  socialCommentsList.innerHTML = '';
   socialCommentShownCountNumber += 5;
   socialCommentShownCount.textContent = socialCommentShownCountNumber;
 
@@ -17,6 +19,7 @@ const onCommentsLoaderClick = () => {
     socialCommentShownCount.textContent = socialCommentTotalCount.textContent;
     commentsLoader.classList.add('hidden');
   }
+  renderComments(bigImageComments, Number(socialCommentShownCount.textContent));
 };
 
 const onBigPictureKeyDown = (evt) => {
@@ -29,6 +32,8 @@ const onBigPictureKeyDown = (evt) => {
 const openImageModal = (evt) => {
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  bigImageComments = evt.currentTarget.myComments;
+  socialCommentTotalCount.textContent = bigImageComments.length;
   socialCommentsList.innerHTML = '';
   socialCommentShownCount.textContent = 5;
   socialCommentShownCountNumber = 5;
@@ -41,6 +46,7 @@ const openImageModal = (evt) => {
     socialCommentShownCount.textContent = socialCommentTotalCount.textContent;
     commentsLoader.classList.add('hidden');
   }
+  renderComments(bigImageComments, Number(socialCommentShownCount.textContent));
 
   document.addEventListener('keydown', onBigPictureKeyDown);
 };
