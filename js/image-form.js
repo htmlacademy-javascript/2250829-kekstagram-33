@@ -54,21 +54,21 @@ imageUploadValidator.addValidator(imageComment, validateComment, `Длина к�
 // Поле ввода хэштегов
 const hashtagRegular = /^#[a-zа-яё0-9]{1,19}$/i;
 const validateHashtags = (value) => {
-  const hashtagsArray = value.split(' ');
+  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
   const hashTagsRegularityCheck = hashtagsArray.some((hashtag) => !hashtagRegular.test(hashtag));
-  return !hashTagsRegularityCheck;
+  return !hashTagsRegularityCheck || value === '';
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
 
 const maxHashtagsNumber = 5;
 const validateHashtagsNumber = (value) => {
-  const hashtagsArray = value.trimEnd().split(' ');
+  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
   return hashtagsArray.length <= maxHashtagsNumber;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, 'Превышено количество хэштегов');
 
 const validateHashtagsRepetition = (value) => {
-  const hashtagsArray = value.trimEnd().split(' ');
+  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
   return new Set(hashtagsArray).size === hashtagsArray.length;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');
