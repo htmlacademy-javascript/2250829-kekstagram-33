@@ -1,2 +1,2 @@
-import './thumbnail-render';
+import './thumbnail-render.js';
 import './full-image-open.js';
