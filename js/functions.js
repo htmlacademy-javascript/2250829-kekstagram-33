@@ -24,7 +24,7 @@ const mergeNumbers = function(currentString) {
   }
   return finishedNumber === '' ? NaN : Number(finishedNumber);
 };
-mergeNumbers('Столетняя война длилась 116 лет, а не 100, как считают многие');
+mergeNumbers('Столетняя война длилась 116 лет, а не 100, как считают многие.');
 
 //Проверка, не выходит ли встреча за рамки рабочего дня
 const checkIfMeetingAbroadWorkDay = function (dayStartTime, dayEndTime, meetingStartTime, meetingLength) {
