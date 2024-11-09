@@ -10,7 +10,7 @@ const imageHashtags = document.querySelector('.text__hashtags');
 
 // Реализация открытия формы
 const onImageUploadOverlayKeyDown = (evt) => {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && imageComment !== document.activeElement && imageHashtags !== document.activeElement) {
     evt.preventDefault();
     imageUploadOverlay.classList.add('hidden');
   }
