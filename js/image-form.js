@@ -7,7 +7,6 @@ const imageUploadCancel = document.querySelector('.img-upload__cancel');
 const imageComment = document.querySelector('.text__description');
 const imageHashtags = document.querySelector('.text__hashtags');
 
-
 // Реализация открытия формы
 const onImageUploadOverlayKeyDown = (evt) => {
   if (isEscapeKey(evt) && imageComment !== document.activeElement && imageHashtags !== document.activeElement) {

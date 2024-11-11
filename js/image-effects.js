@@ -1,29 +1,58 @@
-const imagePreview = document.querySelector('.img-upload__preview img');
-const scaleSmaller = document.querySelector('.scale__control--smaller');
-const scaleBigger = document.querySelector('.scale__control--bigger');
-const scaleValue = document.querySelector('.scale__control--value');
-let scaleValueNumber = scaleValue.value.replace('%', '');
-const SCALE_VALUE_MAX_NUMBER = 100;
-const SCALE_VALUE_MIN_NUMBER = 25;
-const SCALE_VALUE_STEP = 25;
+import { imagePreview } from './image-scale';
 
-// Реализация изменения масштаба изображения
-scaleSmaller.addEventListener('click', () => {
-  scaleValueNumber -= SCALE_VALUE_STEP;
-  if (scaleValueNumber < SCALE_VALUE_MIN_NUMBER) {
-    scaleValueNumber = SCALE_VALUE_MIN_NUMBER;
-  }
+const effectSliderContainer = document.querySelector('.effect-level__slider');
+const effectsRadioInputs = document.querySelectorAll('.effects__radio:not(#effect-none)');
+const effectOriginal = document.querySelector('#effect-none');
+const effectLevelValue = document.querySelector('.effect-level__value');
 
-  scaleValue.value = `${scaleValueNumber}%`;
-  imagePreview.style.transform = `scale(${scaleValueNumber / 100})`;
+effectSliderContainer.style.display = 'none';
+
+noUiSlider.create(effectSliderContainer, {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+  connect: 'lower'
 });
 
-scaleBigger.addEventListener('click', () => {
-  scaleValueNumber += SCALE_VALUE_STEP;
-  if (scaleValueNumber > SCALE_VALUE_MAX_NUMBER) {
-    scaleValueNumber = SCALE_VALUE_MAX_NUMBER;
-  }
+for (const effectInput of effectsRadioInputs) {
+  effectInput.addEventListener('change', function() {
+    effectSliderContainer.style.display = 'block';
+    effectSliderContainer.noUiSlider.updateOptions({
+      range: {
+        min: parseFloat(this.dataset.min),
+        max: parseFloat(this.dataset.max)
+      },
+      start: parseFloat(this.dataset.max),
+      step: parseFloat(this.dataset.step)
+      // format: {
+      //   to: (value) => value.toFixed(1),
+      //   from: (value) => parseFloat(value)
+      // } Вопрос, нужно ли данное приведение?
+    });
 
-  scaleValue.value = `${scaleValueNumber}%`;
-  imagePreview.style.transform = `scale(${scaleValueNumber / 100})`;
+    // if (this.dataset.effect === 'invert') {
+    //   effectSliderContainer.noUiSlider.updateOptions({
+    //     format: {
+    //       to: (value) => value.toFixed(0),
+    //       from: (value) => parseFloat(value)
+    //     }
+    //   });
+    // } Вопрос, нужно ли данное приведение?
+
+    imagePreview.style.filter = `${this.dataset.effect}(${this.dataset.max})`;
+
+    effectSliderContainer.noUiSlider.on('update', () => {
+      imagePreview.style.filter = `${effectInput.dataset.effect}(${effectSliderContainer.noUiSlider.get()}${effectInput.dataset.measure})`;
+      effectLevelValue.value = effectSliderContainer.noUiSlider.get();
+    });
+  });
+}
+
+effectOriginal.addEventListener('click', () => {
+  imagePreview.style.filter = 'none';
+  effectSliderContainer.style.display = 'none';
+  effectLevelValue.value = '';
 });
