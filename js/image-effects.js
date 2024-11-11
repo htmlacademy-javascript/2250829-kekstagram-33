@@ -42,8 +42,6 @@ for (const effectInput of effectsRadioInputs) {
     //   });
     // } Вопрос, нужно ли данное приведение?
 
-    imagePreview.style.filter = `${this.dataset.effect}(${this.dataset.max})`;
-
     effectSliderContainer.noUiSlider.on('update', () => {
       imagePreview.style.filter = `${effectInput.dataset.effect}(${effectSliderContainer.noUiSlider.get()}${effectInput.dataset.measure})`;
       effectLevelValue.value = effectSliderContainer.noUiSlider.get();
