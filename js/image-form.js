@@ -71,3 +71,10 @@ const validateHashtagsRepetition = (value) => {
   return new Set(hashtagsArray).size === hashtagsArray.length;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');
+
+
+imageUploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  imageUploadValidator.validate();
+  closeImageUploadOverlay();
+});
