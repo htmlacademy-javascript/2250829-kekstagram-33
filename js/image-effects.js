@@ -1,4 +1,4 @@
-import { imagePreview } from './image-scale';
+import { imagePreview } from './image-form.js';
 
 const effectSliderContainer = document.querySelector('.effect-level__slider');
 const effectsRadioInputs = document.querySelectorAll('.effects__radio:not(#effect-none)');

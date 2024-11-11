@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { changeImageScale, imagePreview, SCALE_VALUE_MAX_NUMBER } from './image-scale.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadInput = document.querySelector('.img-upload__input');
@@ -18,6 +19,8 @@ const onImageUploadOverlayKeyDown = (evt) => {
 const openImageUploadOverlay = () => {
   imageUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  changeImageScale(SCALE_VALUE_MAX_NUMBER);
+  imagePreview.style.transform = 'scale(1)';
 
   document.addEventListener('keydown', onImageUploadOverlayKeyDown);
 };
@@ -78,3 +81,5 @@ imageUploadForm.addEventListener('submit', (evt) => {
   imageUploadValidator.validate();
   closeImageUploadOverlay();
 });
+
+export {imagePreview};
