@@ -25,7 +25,7 @@ const onCommentsLoaderClick = () => {
 const onBigPictureKeyDown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    bigPicture.classList.add('hidden');
+    closeImageModal();
   }
 };
 
@@ -51,13 +51,13 @@ const openImageModal = (evt) => {
   document.addEventListener('keydown', onBigPictureKeyDown);
 };
 
-const closeImageModal = () => {
+function closeImageModal() {
   bigPicture.classList.add('hidden');
   document.body.classList.add('modal-open');
 
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   document.removeEventListener('keydown', onBigPictureKeyDown);
-};
+}
 
 pictureLinks.forEach((pictureLink) => {
   pictureLink.addEventListener('click', (evt) => {
