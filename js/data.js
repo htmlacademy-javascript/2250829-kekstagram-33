@@ -22,6 +22,7 @@ const PHOTOS_DESCRIPTIONS = [
   'Солнечные лучи пробиваются сквозь легкий туман над водой, а утки плывут, оставляя за собой спокойные волны.',
   'Ясное ночное небо, наполненное тысячами звезд, будто приглашает в бескрайние космические просторы.'
 ];
+const IMAGES_COUNT = 25;
 
 const createComment = function() {
   const createdAuthorId = getRandomId(0, Number.MAX_SAFE_INTEGER);
@@ -53,4 +54,6 @@ const createSimilarImages = function (count) {
   return Array.from({length: count}, imageData);
 };
 
-export {createSimilarImages};
+const similarImages = createSimilarImages(IMAGES_COUNT);
+
+export {createSimilarImages, similarImages};
