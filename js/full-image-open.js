@@ -13,7 +13,7 @@ const COMMENTS_STEP = 5;
 
 const onCommentsLoaderClick = () => {
   socialCommentsList.innerHTML = '';
-  socialCommentShownCountNumber += 5;
+  socialCommentShownCountNumber += COMMENTS_STEP;
   socialCommentShownCount.textContent = socialCommentShownCountNumber;
 
   if (socialCommentShownCountNumber >= Number(socialCommentTotalCount.textContent)) {
