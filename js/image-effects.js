@@ -5,42 +5,56 @@ const effectsRadioInputs = document.querySelectorAll('.effects__radio:not(#effec
 const effectOriginal = document.querySelector('#effect-none');
 const effectLevelValue = document.querySelector('.effect-level__value');
 
+const SLIDER_DEFAULT_MIN = 0;
+const SLIDER_DEFAULT_MAX = 1;
+const SLIDER_DEFAULT_START = 1;
+const SLIDER_DEFAULT_STEP = 0.1;
+
+
 effectSliderContainer.style.display = 'none';
 
 noUiSlider.create(effectSliderContainer, {
   range: {
-    min: 0,
-    max: 1,
+    min: SLIDER_DEFAULT_MIN,
+    max: SLIDER_DEFAULT_MAX,
   },
-  start: 1,
-  step: 0.1,
+  start: SLIDER_DEFAULT_START,
+  step: SLIDER_DEFAULT_STEP,
   connect: 'lower'
 });
 
 for (const effectInput of effectsRadioInputs) {
-  effectInput.addEventListener('change', function() {
+  effectInput.addEventListener('change', (evt) => {
     effectSliderContainer.style.display = 'block';
     effectSliderContainer.noUiSlider.updateOptions({
       range: {
-        min: parseFloat(this.dataset.min),
-        max: parseFloat(this.dataset.max)
+        min: parseFloat(evt.target.dataset.min),
+        max: parseFloat(evt.target.dataset.max)
       },
-      start: parseFloat(this.dataset.max),
-      step: parseFloat(this.dataset.step)
-      // format: {
-      //   to: (value) => value.toFixed(1),
-      //   from: (value) => parseFloat(value)
-      // } Вопрос, нужно ли данное приведение?
+      start: parseFloat(evt.target.dataset.max),
+      step: parseFloat(evt.target.dataset.step),
+      format: {
+        to: (value) => {
+          switch (evt.target.dataset.effect) {
+            case 'invert':
+              return value.toFixed(0);
+          }
+          return value.toFixed(1);
+        },
+        from: (value) => parseFloat(value)
+      }
     });
 
-    // if (this.dataset.effect === 'invert') {
-    //   effectSliderContainer.noUiSlider.updateOptions({
-    //     format: {
-    //       to: (value) => value.toFixed(0),
-    //       from: (value) => parseFloat(value)
-    //     }
-    //   });
-    // } Вопрос, нужно ли данное приведение?
+    // switch (evt.target.dataset.effect) {
+    //   case 'invert':
+    //     effectSliderContainer.noUiSlider.updateOptions({
+    //       format: {
+    //         to: (value) => value.toFixed(0),
+    //         from: (value) => parseFloat(value)
+    //       }
+    //     });
+    // }
+
 
     effectSliderContainer.noUiSlider.on('update', () => {
       imagePreview.style.filter = `${effectInput.dataset.effect}(${effectSliderContainer.noUiSlider.get()}${effectInput.dataset.measure})`;
