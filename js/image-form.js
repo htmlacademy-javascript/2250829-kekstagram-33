@@ -1,37 +1,31 @@
-import { isEscapeKey } from './util.js';
-import { changeImageScale, imagePreview, SCALE_VALUE_MAX_NUMBER } from './image-scale.js';
+import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
+import { sendData } from './api.js';
+import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-modals.js';
+import { imageComment, imageHashtags, imageUploadInput, resetImageForm } from './reset-image-form.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
-const imageUploadInput = document.querySelector('.img-upload__input');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const imageUploadCancel = document.querySelector('.img-upload__cancel');
-const imageComment = document.querySelector('.text__description');
-const imageHashtags = document.querySelector('.text__hashtags');
+const imageUploadButton = document.querySelector('.img-upload__submit');
 
 // Реализация открытия формы
 const onImageUploadOverlayKeyDown = (evt) => {
   if (isEscapeKey(evt) && imageComment !== document.activeElement && imageHashtags !== document.activeElement) {
     evt.preventDefault();
-    imageUploadOverlay.classList.add('hidden');
+    closeImageUploadOverlay();
   }
 };
 
+resetImageForm();
+
 const openImageUploadOverlay = () => {
-  imageUploadOverlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  changeImageScale(SCALE_VALUE_MAX_NUMBER);
-  imagePreview.style.transform = 'scale(1)';
-
-  document.addEventListener('keydown', onImageUploadOverlayKeyDown);
+  openSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
 };
 
-const closeImageUploadOverlay = () => {
-  imageUploadOverlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-
-  document.removeEventListener('keydown', onImageUploadOverlayKeyDown);
-  imageUploadInput.value = '';
-};
+function closeImageUploadOverlay () {
+  closeSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
+  resetImageForm();
+}
 
 imageUploadInput.addEventListener('change', () => {
   openImageUploadOverlay();
@@ -78,8 +72,24 @@ imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Х
 
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  imageUploadValidator.validate();
-  closeImageUploadOverlay();
+
+  const isValid = imageUploadValidator.validate();
+
+  if (isValid) {
+    imageUploadButton.disabled = true;
+    sendData(new FormData(evt.target))
+      .then(() => {
+        openSuccessfulSendingMessage();
+        closeImageUploadOverlay();
+        resetImageForm();
+      })
+      .catch(() => {
+        openErrorSendingMessage();
+      })
+      .finally(() => {
+        imageUploadButton.disabled = false;
+      });
+  }
 });
 
-export {imagePreview};
+
