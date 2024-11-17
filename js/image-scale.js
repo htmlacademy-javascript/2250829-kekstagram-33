@@ -28,4 +28,4 @@ const changeImageScale = (scaleValueNumber) => {
   });
 };
 
-export {changeImageScale, imagePreview, SCALE_VALUE_MAX_NUMBER};
+export {scaleValue, changeImageScale, imagePreview, SCALE_VALUE_MAX_NUMBER};

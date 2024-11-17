@@ -1,17 +1,13 @@
-import { imagePreview } from './image-form.js';
+import { imagePreview } from './image-scale.js';
+import { effectSliderContainer, effectOriginal } from './reset-image-form.js';
 
-const effectSliderContainer = document.querySelector('.effect-level__slider');
 const effectsRadioInputs = document.querySelectorAll('.effects__radio:not(#effect-none)');
-const effectOriginal = document.querySelector('#effect-none');
 const effectLevelValue = document.querySelector('.effect-level__value');
 
 const SLIDER_DEFAULT_MIN = 0;
 const SLIDER_DEFAULT_MAX = 1;
 const SLIDER_DEFAULT_START = 1;
 const SLIDER_DEFAULT_STEP = 0.1;
-
-
-effectSliderContainer.style.display = 'none';
 
 noUiSlider.create(effectSliderContainer, {
   range: {
@@ -63,8 +59,10 @@ for (const effectInput of effectsRadioInputs) {
   });
 }
 
-effectOriginal.addEventListener('click', () => {
-  imagePreview.style.filter = 'none';
-  effectSliderContainer.style.display = 'none';
-  effectLevelValue.value = '';
+effectOriginal.addEventListener('change', (evt) => {
+  if (evt.target.checked) {
+    imagePreview.style.filter = 'none';
+    effectSliderContainer.style.display = 'none';
+    effectLevelValue.value = '';
+  }
 });

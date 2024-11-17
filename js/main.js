@@ -5,10 +5,14 @@ import { getData } from './api.js';
 import './image-form.js';
 import './image-scale.js';
 import './image-effects.js';
+import { openDataError } from './status-modals.js';
 
 const pictureClickHandler = (photosData) => {
   openImageModal(photosData);
 };
 
 getData()
-  .then((pictures) => renderImage(pictures, pictureClickHandler));
+  .then((pictures) => renderImage(pictures, pictureClickHandler))
+  .catch(() => {
+    openDataError();
+  });
