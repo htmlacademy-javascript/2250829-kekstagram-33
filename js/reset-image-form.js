@@ -1,4 +1,4 @@
-import { scaleValue, SCALE_VALUE_MAX_NUMBER, imagePreview, changeImageScale } from './image-scale';
+import { scaleValue, SCALE_VALUE_MAX_NUMBER, imagePreview, changeImageScale } from './image-scale.js';
 
 const imageComment = document.querySelector('.text__description');
 const imageHashtags = document.querySelector('.text__hashtags');
