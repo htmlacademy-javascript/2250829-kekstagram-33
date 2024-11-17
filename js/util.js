@@ -27,4 +27,16 @@ const getRandomArrayIndex = function(currentArray) {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomNumber, getRandomId, getRandomArrayIndex, isEscapeKey};
+const openSomeModal = (currentElement, onEscape) => {
+  currentElement.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  document.addEventListener('keydown', onEscape);
+};
+
+const closeSomeModal = (currentElement, onEscape) => {
+  currentElement.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onEscape);
+};
+
+export { getRandomNumber, getRandomId, getRandomArrayIndex, isEscapeKey, openSomeModal, closeSomeModal };

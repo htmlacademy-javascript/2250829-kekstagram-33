@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
 import { socialCommentsList, socialCommentTotalCount, renderComments } from './render-comments.js';
 import { renderFullImage } from './full-image-render.js';
 
@@ -31,8 +31,7 @@ const onBigPictureKeyDown = (evt) => {
 };
 
 const openImageModal = (photosData) => {
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
+  openSomeModal(bigPicture, onBigPictureKeyDown);
   bigImageComments = photosData.comments;
   socialCommentTotalCount.textContent = bigImageComments.length;
   socialCommentsList.innerHTML = '';
@@ -48,16 +47,11 @@ const openImageModal = (photosData) => {
     commentsLoader.classList.add('hidden');
   }
   renderComments(bigImageComments, Number(socialCommentShownCount.textContent));
-
-  document.addEventListener('keydown', onBigPictureKeyDown);
 };
 
 function closeImageModal() {
-  bigPicture.classList.add('hidden');
-  document.body.classList.add('modal-open');
-
+  closeSomeModal(bigPicture, onBigPictureKeyDown);
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
-  document.removeEventListener('keydown', onBigPictureKeyDown);
 }
 
 pictureLinks.forEach((pictureLink) => {
