@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util';
+import { isEscapeKey } from './util.js';
 
 const successfulSendingMessageTemplate = document.querySelector('#success');
 const successfulSendingMessageInf = successfulSendingMessageTemplate.content.querySelector('.success');
