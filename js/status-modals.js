@@ -35,7 +35,9 @@ const openMessage = (currentMessage, onClose) => {
 
 function closeMessage (currentMessage, onClose) {
   currentMessage.remove();
-  onClose();
+  if (onClose !== undefined) {
+    onClose();
+  }
   document.removeEventListener('keydown', onMessageKeyDownCallback);
   document.removeEventListener('click', onArbitaryRegionClickCallback);
 }
