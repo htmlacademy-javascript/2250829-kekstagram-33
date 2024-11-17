@@ -4,7 +4,7 @@ const pictureLink = pictureTemplate.querySelector('.picture');
 const imagesFragment = document.createDocumentFragment();
 
 
-const createImage = (picture, pictureClickHandler) => {
+const createImage = (picture, onPictureClick) => {
   const pictureLinkCloned = pictureLink.cloneNode(true);
   const pictureImg = pictureLinkCloned.querySelector('.picture__img');
   pictureImg.src = picture.url;
@@ -14,15 +14,15 @@ const createImage = (picture, pictureClickHandler) => {
   pictureInfo.querySelector('.picture__comments').textContent = picture.comments.length;
 
   pictureLinkCloned.addEventListener('click', () => {
-    pictureClickHandler(picture);
+    onPictureClick(picture);
   });
 
   return pictureLinkCloned;
 };
 
-const renderImage = (photosData, pictureClickHandler) => {
+const renderImage = (photosData, onPictureClick) => {
   photosData.forEach((picture) => {
-    const newImage = createImage(picture, pictureClickHandler);
+    const newImage = createImage(picture, onPictureClick);
     imagesFragment.append(newImage);
   });
   picturesContainer.append(imagesFragment);

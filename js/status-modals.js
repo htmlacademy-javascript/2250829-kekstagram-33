@@ -5,36 +5,37 @@ const successfulSendingMessageInf = successfulSendingMessageTemplate.content.que
 const successButton = successfulSendingMessageTemplate.content.querySelector('.success__button');
 const errorSendingMessageTemplate = document.querySelector('#error');
 const errorSendingMessageInf = errorSendingMessageTemplate.content.querySelector('.error');
-const errorButton = successfulSendingMessageTemplate.content.querySelector('.error__button');
+const errorButton = errorSendingMessageTemplate.content.querySelector('.error__button');
 const dataErrorTemplate = document.querySelector('#data-error');
 const dataErrorInf = dataErrorTemplate.content.querySelector('.data-error');
 
-const onMessageKeyDown = (currentElement) => (evt) => {
+const onMessageKeyDown = (currentElement, onClose) => (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeMessage(currentElement);
+    closeMessage(currentElement, onClose);
   }
 };
 
-const onArbitaryRegionClick = (currentElement) => (evt) => {
+const onArbitaryRegionClick = (currentElement, onClose) => (evt) => {
   if (!currentElement.children[0].contains(evt.target)) {
-    closeMessage(currentElement);
+    closeMessage(currentElement, onClose);
   }
 };
 
 let onMessageKeyDownCallback;
 let onArbitaryRegionClickCallback;
 
-const openMessage = (currentMessage) => {
-  onMessageKeyDownCallback = onMessageKeyDown(currentMessage);
-  onArbitaryRegionClickCallback = onArbitaryRegionClick(currentMessage);
+const openMessage = (currentMessage, onClose) => {
+  onMessageKeyDownCallback = onMessageKeyDown(currentMessage, onClose);
+  onArbitaryRegionClickCallback = onArbitaryRegionClick(currentMessage, onClose);
   document.body.append(currentMessage);
   document.addEventListener('keydown', onMessageKeyDownCallback);
   document.addEventListener('click', onArbitaryRegionClickCallback);
 };
 
-function closeMessage (currentMessage) {
+function closeMessage (currentMessage, onClose) {
   currentMessage.remove();
+  onClose();
   document.removeEventListener('keydown', onMessageKeyDownCallback);
   document.removeEventListener('click', onArbitaryRegionClickCallback);
 }
@@ -47,11 +48,11 @@ const openSuccessfulSendingMessage = () => {
   });
 };
 
-const openErrorSendingMessage = () => {
-  openMessage(errorSendingMessageInf);
+const openErrorSendingMessage = (onClose) => {
+  openMessage(errorSendingMessageInf, onClose);
 
   errorButton.addEventListener('click', () => {
-    closeMessage(errorSendingMessageInf);
+    closeMessage(errorSendingMessageInf, onClose);
   });
 };
 

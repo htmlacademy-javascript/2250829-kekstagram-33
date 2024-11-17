@@ -7,12 +7,12 @@ import './image-scale.js';
 import './image-effects.js';
 import { openDataError } from './status-modals.js';
 
-const pictureClickHandler = (photosData) => {
+const onPictureClick = (photosData) => {
   openImageModal(photosData);
 };
 
 getData()
-  .then((pictures) => renderImage(pictures, pictureClickHandler))
+  .then((pictures) => renderImage(pictures, onPictureClick))
   .catch(() => {
     openDataError();
   });
