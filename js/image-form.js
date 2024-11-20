@@ -1,24 +1,27 @@
 import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
 import { sendData } from './api.js';
 import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-modals.js';
-import { imageComment, imageHashtags, imageUploadInput, resetImageForm } from './reset-image-form.js';
+import { resetImageForm } from './reset-image-form.js';
 import { imagePreview } from './image-scale.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const imageUploadCancel = document.querySelector('.img-upload__cancel');
 const imageUploadButton = document.querySelector('.img-upload__submit');
+const imageComment = document.querySelector('.text__description');
+const imageHashtags = document.querySelector('.text__hashtags');
+const imageUploadInput = document.querySelector('.img-upload__input');
 
 // Реализация открытия формы
 const onImageUploadOverlayKeyDown = (evt) => {
   if (isEscapeKey(evt) && imageComment !== document.activeElement && imageHashtags !== document.activeElement) {
     evt.preventDefault();
     closeImageUploadOverlay();
-    resetImageForm();
+    resetImageForm(imageUploadForm);
   }
 };
 
-resetImageForm();
+resetImageForm(imageUploadForm);
 
 const openImageUploadOverlay = () => {
   openSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
@@ -36,7 +39,7 @@ imageUploadInput.addEventListener('change', () => {
 
 imageUploadCancel.addEventListener('click', () => {
   closeImageUploadOverlay();
-  resetImageForm();
+  resetImageForm(imageUploadForm);
 });
 
 // Реализация валидации формы
@@ -84,7 +87,7 @@ imageUploadForm.addEventListener('submit', (evt) => {
     sendData(new FormData(evt.target))
       .then(() => {
         openSuccessfulSendingMessage();
-        resetImageForm();
+        resetImageForm(imageUploadForm);
       })
       .catch(() => {
         openErrorSendingMessage(openImageUploadOverlay);
@@ -95,5 +98,3 @@ imageUploadForm.addEventListener('submit', (evt) => {
       });
   }
 });
-
-
