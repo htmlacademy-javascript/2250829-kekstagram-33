@@ -13,6 +13,7 @@ const onImageUploadOverlayKeyDown = (evt) => {
   if (isEscapeKey(evt) && imageComment !== document.activeElement && imageHashtags !== document.activeElement) {
     evt.preventDefault();
     closeImageUploadOverlay();
+    resetImageForm();
   }
 };
 
@@ -24,7 +25,6 @@ const openImageUploadOverlay = () => {
 
 function closeImageUploadOverlay () {
   closeSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
-  resetImageForm();
 }
 
 imageUploadInput.addEventListener('change', () => {
@@ -33,6 +33,7 @@ imageUploadInput.addEventListener('change', () => {
 
 imageUploadCancel.addEventListener('click', () => {
   closeImageUploadOverlay();
+  resetImageForm();
 });
 
 // Реализация валидации формы
@@ -80,13 +81,13 @@ imageUploadForm.addEventListener('submit', (evt) => {
     sendData(new FormData(evt.target))
       .then(() => {
         openSuccessfulSendingMessage();
-        closeImageUploadOverlay();
         resetImageForm();
       })
       .catch(() => {
-        openErrorSendingMessage();
+        openErrorSendingMessage(openImageUploadOverlay);
       })
       .finally(() => {
+        closeImageUploadOverlay();
         imageUploadButton.disabled = false;
       });
   }
