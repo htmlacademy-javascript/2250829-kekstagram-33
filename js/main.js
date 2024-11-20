@@ -6,13 +6,19 @@ import './image-form.js';
 import './image-scale.js';
 import './image-effects.js';
 import { openDataError } from './status-modals.js';
+import { imageFilters } from './images-filters.js';
+import { sortImages } from './sort-images.js';
 
 const onPictureClick = (photosData) => {
   openImageModal(photosData);
 };
 
 getData()
-  .then((pictures) => renderImage(pictures, onPictureClick))
+  .then((pictures) => {
+    renderImage(pictures, onPictureClick);
+    sortImages(pictures, onPictureClick);
+    imageFilters.classList.remove('img-filters--inactive');
+  })
   .catch(() => {
     openDataError();
   });

@@ -21,6 +21,11 @@ const createImage = (picture, onPictureClick) => {
 };
 
 const renderImage = (photosData, onPictureClick) => {
+  let image = picturesContainer.querySelector('.picture');
+  while (image) {
+    image.remove();
+    image = picturesContainer.querySelector('.picture');
+  }
   photosData.forEach((picture) => {
     const newImage = createImage(picture, onPictureClick);
     imagesFragment.append(newImage);
