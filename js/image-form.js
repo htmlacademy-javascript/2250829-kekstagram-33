@@ -2,10 +2,15 @@ import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
 import { sendData } from './api.js';
 import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-modals.js';
 import { imageComment, imageHashtags, imageUploadInput, resetImageForm } from './reset-image-form.js';
+import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
+import { sendData } from './api.js';
+import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-modals.js';
+import { imageComment, imageHashtags, imageUploadInput, resetImageForm } from './reset-image-form.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const imageUploadCancel = document.querySelector('.img-upload__cancel');
+const imageUploadButton = document.querySelector('.img-upload__submit');
 const imageUploadButton = document.querySelector('.img-upload__submit');
 
 // Реализация открытия формы
@@ -19,7 +24,10 @@ const onImageUploadOverlayKeyDown = (evt) => {
 
 resetImageForm();
 
+resetImageForm();
+
 const openImageUploadOverlay = () => {
+  openSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
   openSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
 };
 
