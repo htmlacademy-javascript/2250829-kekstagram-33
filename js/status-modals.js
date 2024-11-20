@@ -58,12 +58,13 @@ const openErrorSendingMessage = (onClose) => {
   });
 };
 
+const DATA_ERROR_TIMEOUT = 5000;
 const openDataError = () => {
   document.body.append(dataErrorInf);
 
   setTimeout(() => {
     dataErrorInf.remove();
-  }, 5000);
+  }, DATA_ERROR_TIMEOUT);
 };
 
 export { openSuccessfulSendingMessage, openErrorSendingMessage, openDataError };
