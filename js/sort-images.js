@@ -11,7 +11,7 @@ const sortImages = (pictures, onPictureClick) => {
       let sortingPictures = pictures;
       switch (filterType) {
         case 'filter-random':
-          sortingPictures = sortArrayRandom(pictures).slice(0, 10);
+          sortingPictures = sortArrayRandom(pictures.slice()).slice(0, 10);
           break;
         case 'filter-discussed':
           sortingPictures = pictures.slice().sort(sortArrayByComments);
