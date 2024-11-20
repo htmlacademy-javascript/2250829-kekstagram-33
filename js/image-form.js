@@ -2,6 +2,7 @@ import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
 import { sendData } from './api.js';
 import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-modals.js';
 import { imageComment, imageHashtags, imageUploadInput, resetImageForm } from './reset-image-form.js';
+import { imagePreview } from './image-scale.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -29,6 +30,8 @@ function closeImageUploadOverlay () {
 
 imageUploadInput.addEventListener('change', () => {
   openImageUploadOverlay();
+  const file = imageUploadInput.files[0];
+  imagePreview.src = URL.createObjectURL(file);
 });
 
 imageUploadCancel.addEventListener('click', () => {
