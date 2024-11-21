@@ -65,4 +65,4 @@ bigPictureCancel.addEventListener('click', (evt) => {
   closeImageModal();
 });
 
-export {openImageModal};
+export { openImageModal };

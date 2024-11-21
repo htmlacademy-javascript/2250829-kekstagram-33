@@ -15,6 +15,7 @@ const imageUploadButton = document.querySelector('.img-upload__submit');
 const imageComment = document.querySelector('.text__description');
 const imageHashtags = document.querySelector('.text__hashtags');
 const imageUploadInput = document.querySelector('.img-upload__input');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 //Создание валидатора формы
 const imageUploadValidator = new Pristine(imageUploadForm, {
@@ -45,7 +46,12 @@ function closeImageUploadOverlay () {
 imageUploadInput.addEventListener('change', () => {
   openImageUploadOverlay();
   const file = imageUploadInput.files[0];
-  imagePreview.src = URL.createObjectURL(file);
+  const fileUrl = URL.createObjectURL(file);
+  imagePreview.src = fileUrl;
+
+  effectsPreviews.forEach((effectsPreview) => {
+    effectsPreview.style.backgroundImage = `url("${fileUrl}")`;
+  });
 });
 
 imageUploadCancel.addEventListener('click', () => {
