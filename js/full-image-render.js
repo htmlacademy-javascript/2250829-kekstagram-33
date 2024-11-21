@@ -9,4 +9,4 @@ const renderFullImage = (photosData) => {
 };
 
 
-export {renderFullImage};
+export { renderFullImage };

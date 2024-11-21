@@ -1,5 +1,7 @@
 import { isEscapeKey } from './util.js';
 
+const DATA_ERROR_TIMEOUT = 5000;
+
 const successfulSendingMessageTemplate = document.querySelector('#success');
 const successfulSendingMessageInf = successfulSendingMessageTemplate.content.querySelector('.success');
 const successButton = successfulSendingMessageTemplate.content.querySelector('.success__button');
@@ -58,7 +60,6 @@ const openErrorSendingMessage = (onClose) => {
   });
 };
 
-const DATA_ERROR_TIMEOUT = 5000;
 const openDataError = () => {
   document.body.append(dataErrorInf);
 

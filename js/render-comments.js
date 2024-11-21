@@ -1,4 +1,4 @@
-const socialCommentTotalCount = document.querySelector('.social__comment-total-count');
+const socialCommentsTotalCount = document.querySelector('.social__comment-total-count');
 const socialCommentsList = document.querySelector('.social__comments');
 const socialComment = document.querySelector('.social__comment');
 
@@ -12,11 +12,11 @@ const renderOneComment = (comment) => {
 };
 
 const renderComments = (comments, shownCount) => {
-  socialCommentTotalCount.textContent = comments.length;
+  socialCommentsTotalCount.textContent = comments.length;
   for (let i = 0; i < shownCount; i++) {
     renderOneComment(comments[i]);
   }
 };
 
 
-export {renderComments, socialCommentsList, socialCommentTotalCount};
+export {renderComments, socialCommentsList, socialCommentsTotalCount};

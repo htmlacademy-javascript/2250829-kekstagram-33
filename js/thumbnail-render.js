@@ -3,7 +3,6 @@ const pictureTemplate = document.querySelector('#picture').content;
 const pictureLink = pictureTemplate.querySelector('.picture');
 const imagesFragment = document.createDocumentFragment();
 
-
 const createImage = (picture, onPictureClick) => {
   const pictureLinkCloned = pictureLink.cloneNode(true);
   const pictureImg = pictureLinkCloned.querySelector('.picture__img');

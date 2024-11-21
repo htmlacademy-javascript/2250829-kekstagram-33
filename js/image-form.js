@@ -1,23 +1,38 @@
 import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
 import { sendData } from './api.js';
 import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-modals.js';
-import { imageComment, imageHashtags, imageUploadInput, resetImageForm } from './reset-image-form.js';
+import { resetImageForm } from './reset-image-form.js';
+import { imagePreview } from './image-scale.js';
+
+const MAX_COMMENT_LENGTH = 140;
+const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
+const MAX_HASHTAGS_NUMBER = 5;
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const imageUploadCancel = document.querySelector('.img-upload__cancel');
 const imageUploadButton = document.querySelector('.img-upload__submit');
+const imageComment = document.querySelector('.text__description');
+const imageHashtags = document.querySelector('.text__hashtags');
+const imageUploadInput = document.querySelector('.img-upload__input');
+
+//Создание валидатора формы
+const imageUploadValidator = new Pristine(imageUploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error'
+});
 
 // Реализация открытия формы
 const onImageUploadOverlayKeyDown = (evt) => {
   if (isEscapeKey(evt) && imageComment !== document.activeElement && imageHashtags !== document.activeElement) {
     evt.preventDefault();
     closeImageUploadOverlay();
-    resetImageForm();
+    resetImageForm(imageUploadForm, imageUploadValidator);
   }
 };
 
-resetImageForm();
+resetImageForm(imageUploadForm, imageUploadValidator);
 
 const openImageUploadOverlay = () => {
   openSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
@@ -29,47 +44,41 @@ function closeImageUploadOverlay () {
 
 imageUploadInput.addEventListener('change', () => {
   openImageUploadOverlay();
+  const file = imageUploadInput.files[0];
+  imagePreview.src = URL.createObjectURL(file);
 });
 
 imageUploadCancel.addEventListener('click', () => {
   closeImageUploadOverlay();
-  resetImageForm();
+  resetImageForm(imageUploadForm, imageUploadValidator);
 });
 
 // Реализация валидации формы
-const imageUploadValidator = new Pristine(imageUploadForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
-
 // Поле ввода комментария
-const MAX_COMMENT_LENGTH = 140;
 const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
 imageUploadValidator.addValidator(imageComment, validateComment, `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`);
 
 // Поле ввода хэштегов
-const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
+const prepareHashtags = (value) => value.trim().replace(/\s+/g, ' ').split(' ');
+
 const validateHashtags = (value) => {
-  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
-  const hashTagsRegularityCheck = hashtagsArray.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
+  const hashtags = prepareHashtags(value);
+  const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
   return !hashTagsRegularityCheck || value === '';
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
 
-const MAX_HASHTAGS_NUMBER = 5;
 const validateHashtagsNumber = (value) => {
-  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
-  return hashtagsArray.length <= MAX_HASHTAGS_NUMBER;
+  const hashtags = prepareHashtags(value);
+  return hashtags.length <= MAX_HASHTAGS_NUMBER;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, 'Превышено количество хэштегов');
 
 const validateHashtagsRepetition = (value) => {
-  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
-  return new Set(hashtagsArray).size === hashtagsArray.length;
+  const hashtags = prepareHashtags(value);
+  return new Set(hashtags).size === hashtags.length;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');
-
 
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -81,7 +90,7 @@ imageUploadForm.addEventListener('submit', (evt) => {
     sendData(new FormData(evt.target))
       .then(() => {
         openSuccessfulSendingMessage();
-        resetImageForm();
+        resetImageForm(imageUploadForm, imageUploadValidator);
       })
       .catch(() => {
         openErrorSendingMessage(openImageUploadOverlay);
@@ -92,5 +101,3 @@ imageUploadForm.addEventListener('submit', (evt) => {
       });
   }
 });
-
-
