@@ -1,5 +1,5 @@
 import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
-import { socialCommentsList, socialCommentTotalCount, renderComments } from './render-comments.js';
+import { socialCommentsList, socialCommentsTotalCount, renderComments } from './render-comments.js';
 import { renderFullImage } from './full-image-render.js';
 
 const bigPicture = document.querySelector('.big-picture');
@@ -16,8 +16,8 @@ const onCommentsLoaderClick = () => {
   socialCommentShownCountNumber += COMMENTS_STEP;
   socialCommentShownCount.textContent = socialCommentShownCountNumber;
 
-  if (socialCommentShownCountNumber >= Number(socialCommentTotalCount.textContent)) {
-    socialCommentShownCount.textContent = socialCommentTotalCount.textContent;
+  if (socialCommentShownCountNumber >= Number(socialCommentsTotalCount.textContent)) {
+    socialCommentShownCount.textContent = socialCommentsTotalCount.textContent;
     commentsLoader.classList.add('hidden');
   }
   renderComments(bigImageComments, Number(socialCommentShownCount.textContent));
@@ -33,7 +33,7 @@ const onBigPictureKeyDown = (evt) => {
 const openImageModal = (photosData) => {
   openSomeModal(bigPicture, onBigPictureKeyDown);
   bigImageComments = photosData.comments;
-  socialCommentTotalCount.textContent = bigImageComments.length;
+  socialCommentsTotalCount.textContent = bigImageComments.length;
   socialCommentsList.innerHTML = '';
   socialCommentShownCount.textContent = COMMENTS_STEP;
   socialCommentShownCountNumber = COMMENTS_STEP;
@@ -42,8 +42,8 @@ const openImageModal = (photosData) => {
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
   renderFullImage(photosData);
-  if (Number(socialCommentTotalCount.textContent) <= COMMENTS_STEP) {
-    socialCommentShownCount.textContent = socialCommentTotalCount.textContent;
+  if (Number(socialCommentsTotalCount.textContent) <= COMMENTS_STEP) {
+    socialCommentShownCount.textContent = socialCommentsTotalCount.textContent;
     commentsLoader.classList.add('hidden');
   }
   renderComments(bigImageComments, Number(socialCommentShownCount.textContent));

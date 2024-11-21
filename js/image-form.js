@@ -4,6 +4,10 @@ import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-
 import { resetImageForm } from './reset-image-form.js';
 import { imagePreview } from './image-scale.js';
 
+const MAX_COMMENT_LENGTH = 140;
+const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
+const MAX_HASHTAGS_NUMBER = 5;
+
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const imageUploadCancel = document.querySelector('.img-upload__cancel');
@@ -51,12 +55,10 @@ imageUploadCancel.addEventListener('click', () => {
 
 // Реализация валидации формы
 // Поле ввода комментария
-const MAX_COMMENT_LENGTH = 140;
 const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
 imageUploadValidator.addValidator(imageComment, validateComment, `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`);
 
 // Поле ввода хэштегов
-const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
 const validateHashtags = (value) => {
   const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
   const hashTagsRegularityCheck = hashtagsArray.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
@@ -64,7 +66,6 @@ const validateHashtags = (value) => {
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
 
-const MAX_HASHTAGS_NUMBER = 5;
 const validateHashtagsNumber = (value) => {
   const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
   return hashtagsArray.length <= MAX_HASHTAGS_NUMBER;
