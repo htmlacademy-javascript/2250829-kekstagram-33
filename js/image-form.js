@@ -60,21 +60,21 @@ imageUploadValidator.addValidator(imageComment, validateComment, `Длина к�
 
 // Поле ввода хэштегов
 const validateHashtags = (value) => {
-  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
-  const hashTagsRegularityCheck = hashtagsArray.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
+  const hashtags = value.trim().replace(/\s+/g, ' ').split(' ');
+  const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
   return !hashTagsRegularityCheck || value === '';
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
 
 const validateHashtagsNumber = (value) => {
-  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
-  return hashtagsArray.length <= MAX_HASHTAGS_NUMBER;
+  const hashtags = value.trim().replace(/\s+/g, ' ').split(' ');
+  return hashtags.length <= MAX_HASHTAGS_NUMBER;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, 'Превышено количество хэштегов');
 
 const validateHashtagsRepetition = (value) => {
-  const hashtagsArray = value.trim().replace(/\s+/g, ' ').split(' ');
-  return new Set(hashtagsArray).size === hashtagsArray.length;
+  const hashtags = value.trim().replace(/\s+/g, ' ').split(' ');
+  return new Set(hashtags).size === hashtags.length;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');
 
