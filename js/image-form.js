@@ -65,7 +65,7 @@ const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
 imageUploadValidator.addValidator(imageComment, validateComment, `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`);
 
 // Поле ввода хэштегов
-const prepareHashtags = (value) => value.trim().replace(/\s+/g, ' ').split(' ');
+const prepareHashtags = (value) => value.toLowerCase().trim().replace(/\s+/g, ' ').split(' ');
 
 const validateHashtags = (value) => {
   const hashtags = prepareHashtags(value);
