@@ -3,7 +3,8 @@ import { SCALE_VALUE_MAX_NUMBER, imagePreview, changeImageScale } from './image-
 const effectSliderContainer = document.querySelector('.effect-level__slider');
 const effectOriginal = document.querySelector('#effect-none');
 
-const resetImageForm = (currentForm) => {
+const resetImageForm = (currentForm, currentFormValidator) => {
+  currentFormValidator.reset();
   currentForm.reset();
   changeImageScale(SCALE_VALUE_MAX_NUMBER);
   imagePreview.style.transform = 'scale(1)';

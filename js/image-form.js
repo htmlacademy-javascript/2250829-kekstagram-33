@@ -12,16 +12,23 @@ const imageComment = document.querySelector('.text__description');
 const imageHashtags = document.querySelector('.text__hashtags');
 const imageUploadInput = document.querySelector('.img-upload__input');
 
+//Создание валидатора формы
+const imageUploadValidator = new Pristine(imageUploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error'
+});
+
 // Реализация открытия формы
 const onImageUploadOverlayKeyDown = (evt) => {
   if (isEscapeKey(evt) && imageComment !== document.activeElement && imageHashtags !== document.activeElement) {
     evt.preventDefault();
     closeImageUploadOverlay();
-    resetImageForm(imageUploadForm);
+    resetImageForm(imageUploadForm, imageUploadValidator);
   }
 };
 
-resetImageForm(imageUploadForm);
+resetImageForm(imageUploadForm, imageUploadValidator);
 
 const openImageUploadOverlay = () => {
   openSomeModal(imageUploadOverlay, onImageUploadOverlayKeyDown);
@@ -39,16 +46,10 @@ imageUploadInput.addEventListener('change', () => {
 
 imageUploadCancel.addEventListener('click', () => {
   closeImageUploadOverlay();
-  resetImageForm(imageUploadForm);
+  resetImageForm(imageUploadForm, imageUploadValidator);
 });
 
 // Реализация валидации формы
-const imageUploadValidator = new Pristine(imageUploadForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
-
 // Поле ввода комментария
 const MAX_COMMENT_LENGTH = 140;
 const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
@@ -76,7 +77,6 @@ const validateHashtagsRepetition = (value) => {
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');
 
-
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
@@ -87,7 +87,7 @@ imageUploadForm.addEventListener('submit', (evt) => {
     sendData(new FormData(evt.target))
       .then(() => {
         openSuccessfulSendingMessage();
-        resetImageForm(imageUploadForm);
+        resetImageForm(imageUploadForm, imageUploadValidator);
       })
       .catch(() => {
         openErrorSendingMessage(openImageUploadOverlay);
