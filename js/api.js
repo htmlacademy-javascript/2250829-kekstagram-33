@@ -10,7 +10,7 @@ const Methods = {
 
 const loadData = (route, method = Methods.GET, body = null) => fetch(
   `${BASE_URL}${route}`,
-  {method, body, }
+  {method, body }
 )
   .then((response) => {
     if(!response.ok) {

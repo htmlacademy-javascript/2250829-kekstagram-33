@@ -30,13 +30,7 @@ for (const effectInput of effectsRadioInputs) {
       start: parseFloat(evt.target.dataset.max),
       step: parseFloat(evt.target.dataset.step),
       format: {
-        to: (value) => {
-          switch (evt.target.dataset.effect) {
-            case 'invert':
-              return value.toFixed(0);
-          }
-          return value.toFixed(1);
-        },
+        to: (value) => evt.target.dataset.effect === 'invert' ? value.toFixed(0) : value.toFixed(1),
         from: (value) => parseFloat(value)
       }
     });

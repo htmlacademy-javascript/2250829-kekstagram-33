@@ -1,6 +1,7 @@
 const SCALE_VALUE_MIN_NUMBER = 25;
 const SCALE_VALUE_STEP = 25;
 const SCALE_VALUE_MAX_NUMBER = 100;
+const PERCENTS_TO_SCALE = 100;
 
 const imagePreview = document.querySelector('.img-upload__preview img');
 const scaleSmaller = document.querySelector('.scale__control--smaller');
@@ -15,7 +16,7 @@ const changeImageScale = (scaleValueNumber) => {
     }
 
     scaleValue.value = `${scaleValueNumber}%`;
-    imagePreview.style.transform = `scale(${scaleValueNumber / 100})`;
+    imagePreview.style.transform = `scale(${scaleValueNumber / PERCENTS_TO_SCALE})`;
   });
 
   scaleBigger.addEventListener('click', () => {
@@ -25,7 +26,7 @@ const changeImageScale = (scaleValueNumber) => {
     }
 
     scaleValue.value = `${scaleValueNumber}%`;
-    imagePreview.style.transform = `scale(${scaleValueNumber / 100})`;
+    imagePreview.style.transform = `scale(${scaleValueNumber / PERCENTS_TO_SCALE})`;
   });
 };
 
