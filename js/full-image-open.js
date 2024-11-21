@@ -2,6 +2,8 @@ import { isEscapeKey, openSomeModal, closeSomeModal } from './util.js';
 import { socialCommentsList, socialCommentsTotalCount, renderComments } from './render-comments.js';
 import { renderFullImage } from './full-image-render.js';
 
+const COMMENTS_STEP = 5;
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureCancel = document.querySelector('.big-picture__cancel');
 const pictureLinks = document.querySelectorAll('.picture');
@@ -9,7 +11,6 @@ const socialCommentShownCount = document.querySelector('.social__comment-shown-c
 let socialCommentShownCountNumber = Number(socialCommentShownCount.textContent);
 const commentsLoader = document.querySelector('.comments-loader');
 let bigImageComments = [];
-const COMMENTS_STEP = 5;
 
 const onCommentsLoaderClick = () => {
   socialCommentsList.innerHTML = '';
@@ -22,6 +23,7 @@ const onCommentsLoaderClick = () => {
   }
   renderComments(bigImageComments, Number(socialCommentShownCount.textContent));
 };
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 const onBigPictureKeyDown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -37,10 +39,7 @@ const openImageModal = (photosData) => {
   socialCommentsList.innerHTML = '';
   socialCommentShownCount.textContent = COMMENTS_STEP;
   socialCommentShownCountNumber = COMMENTS_STEP;
-
   commentsLoader.classList.remove('hidden');
-  commentsLoader.addEventListener('click', onCommentsLoaderClick);
-
   renderFullImage(photosData);
   if (Number(socialCommentsTotalCount.textContent) <= COMMENTS_STEP) {
     socialCommentShownCount.textContent = socialCommentsTotalCount.textContent;
@@ -51,7 +50,6 @@ const openImageModal = (photosData) => {
 
 function closeImageModal() {
   closeSomeModal(bigPicture, onBigPictureKeyDown);
-  commentsLoader.removeEventListener('click', onCommentsLoaderClick);
 }
 
 pictureLinks.forEach((pictureLink) => {

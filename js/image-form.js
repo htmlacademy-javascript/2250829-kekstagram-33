@@ -59,21 +59,23 @@ const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
 imageUploadValidator.addValidator(imageComment, validateComment, `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`);
 
 // Поле ввода хэштегов
+const prepareHashtags = (value) => value.trim().replace(/\s+/g, ' ').split(' ');
+
 const validateHashtags = (value) => {
-  const hashtags = value.trim().replace(/\s+/g, ' ').split(' ');
+  const hashtags = prepareHashtags(value);
   const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
   return !hashTagsRegularityCheck || value === '';
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
 
 const validateHashtagsNumber = (value) => {
-  const hashtags = value.trim().replace(/\s+/g, ' ').split(' ');
+  const hashtags = prepareHashtags(value);
   return hashtags.length <= MAX_HASHTAGS_NUMBER;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, 'Превышено количество хэштегов');
 
 const validateHashtagsRepetition = (value) => {
-  const hashtags = value.trim().replace(/\s+/g, ' ').split(' ');
+  const hashtags = prepareHashtags(value);
   return new Set(hashtags).size === hashtags.length;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');

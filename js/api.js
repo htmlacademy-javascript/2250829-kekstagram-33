@@ -3,8 +3,12 @@ const Route = {
   GET_DATA: '/data',
   SEND_DATA: ''
 };
+const Methods = {
+  GET: 'GET',
+  POST: 'POST'
+};
 
-const loadData = (route, method = 'GET', body = null) => fetch(
+const loadData = (route, method = Methods.GET, body = null) => fetch(
   `${BASE_URL}${route}`,
   {method, body, }
 )
@@ -20,6 +24,6 @@ const loadData = (route, method = 'GET', body = null) => fetch(
 
 const getData = () => loadData(Route.GET_DATA);
 
-const sendData = (body) => loadData(Route.SEND_DATA, 'POST', body);
+const sendData = (body) => loadData(Route.SEND_DATA, Methods.POST, body);
 
 export { getData, sendData };
