@@ -1,13 +1,13 @@
 import { imagePreview } from './image-scale.js';
 import { effectSliderContainer, effectOriginal } from './reset-image-form.js';
 
-const effectsRadioInputs = document.querySelectorAll('.effects__radio:not(#effect-none)');
-const effectLevelValue = document.querySelector('.effect-level__value');
-
 const SLIDER_DEFAULT_MIN = 0;
 const SLIDER_DEFAULT_MAX = 1;
 const SLIDER_DEFAULT_START = 1;
 const SLIDER_DEFAULT_STEP = 0.1;
+
+const effectsRadioInputs = document.querySelectorAll('.effects__radio:not(#effect-none)');
+const effectLevelValue = document.querySelector('.effect-level__value');
 
 noUiSlider.create(effectSliderContainer, {
   range: {
@@ -40,17 +40,6 @@ for (const effectInput of effectsRadioInputs) {
         from: (value) => parseFloat(value)
       }
     });
-
-    // switch (evt.target.dataset.effect) {
-    //   case 'invert':
-    //     effectSliderContainer.noUiSlider.updateOptions({
-    //       format: {
-    //         to: (value) => value.toFixed(0),
-    //         from: (value) => parseFloat(value)
-    //       }
-    //     });
-    // }
-
 
     effectSliderContainer.noUiSlider.on('update', () => {
       imagePreview.style.filter = `${effectInput.dataset.effect}(${effectSliderContainer.noUiSlider.get()}${effectInput.dataset.measure})`;
