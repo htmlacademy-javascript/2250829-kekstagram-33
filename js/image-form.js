@@ -7,28 +7,11 @@ import { imagePreview } from './image-scale.js';
 const MAX_COMMENT_LENGTH = 140;
 const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS_NUMBER = 5;
-import { resetImageForm } from './reset-image-form.js';
-import { imagePreview } from './image-scale.js';
-
-const MAX_COMMENT_LENGTH = 140;
-const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
-const MAX_HASHTAGS_NUMBER = 5;
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const imageUploadCancel = document.querySelector('.img-upload__cancel');
 const imageUploadButton = document.querySelector('.img-upload__submit');
-const imageComment = document.querySelector('.text__description');
-const imageHashtags = document.querySelector('.text__hashtags');
-const imageUploadInput = document.querySelector('.img-upload__input');
-const effectsPreviews = document.querySelectorAll('.effects__preview');
-
-//Создание валидатора формы
-const imageUploadValidator = new Pristine(imageUploadForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
 const imageComment = document.querySelector('.text__description');
 const imageHashtags = document.querySelector('.text__hashtags');
 const imageUploadInput = document.querySelector('.img-upload__input');
@@ -47,11 +30,9 @@ const onImageUploadOverlayKeyDown = (evt) => {
     evt.preventDefault();
     closeImageUploadOverlay();
     resetImageForm(imageUploadForm, imageUploadValidator);
-    resetImageForm(imageUploadForm, imageUploadValidator);
   }
 };
 
-resetImageForm(imageUploadForm, imageUploadValidator);
 resetImageForm(imageUploadForm, imageUploadValidator);
 
 const openImageUploadOverlay = () => {
@@ -71,18 +52,10 @@ imageUploadInput.addEventListener('change', () => {
   effectsPreviews.forEach((effectsPreview) => {
     effectsPreview.style.backgroundImage = `url("${fileUrl}")`;
   });
-  const file = imageUploadInput.files[0];
-  const fileUrl = URL.createObjectURL(file);
-  imagePreview.src = fileUrl;
-
-  effectsPreviews.forEach((effectsPreview) => {
-    effectsPreview.style.backgroundImage = `url("${fileUrl}")`;
-  });
 });
 
 imageUploadCancel.addEventListener('click', () => {
   closeImageUploadOverlay();
-  resetImageForm(imageUploadForm, imageUploadValidator);
   resetImageForm(imageUploadForm, imageUploadValidator);
 });
 
@@ -97,8 +70,6 @@ const prepareHashtags = (value) => value.toLowerCase().trim().replace(/\s+/g, ' 
 const validateHashtags = (value) => {
   const hashtags = prepareHashtags(value);
   const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
-  const hashtags = prepareHashtags(value);
-  const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
   return !hashTagsRegularityCheck || value === '';
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
@@ -106,14 +77,10 @@ imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён
 const validateHashtagsNumber = (value) => {
   const hashtags = prepareHashtags(value);
   return hashtags.length <= MAX_HASHTAGS_NUMBER;
-  const hashtags = prepareHashtags(value);
-  return hashtags.length <= MAX_HASHTAGS_NUMBER;
 };
 imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, 'Превышено количество хэштегов');
 
 const validateHashtagsRepetition = (value) => {
-  const hashtags = prepareHashtags(value);
-  return new Set(hashtags).size === hashtags.length;
   const hashtags = prepareHashtags(value);
   return new Set(hashtags).size === hashtags.length;
 };
@@ -129,7 +96,6 @@ imageUploadForm.addEventListener('submit', (evt) => {
     sendData(new FormData(evt.target))
       .then(() => {
         openSuccessfulSendingMessage();
-        resetImageForm(imageUploadForm, imageUploadValidator);
         resetImageForm(imageUploadForm, imageUploadValidator);
       })
       .catch(() => {
