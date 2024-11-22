@@ -1,8 +1,12 @@
 import { SCALE_VALUE_MAX_NUMBER, imagePreview, changeImageScale } from './image-scale.js';
+import { SCALE_VALUE_MAX_NUMBER, imagePreview, changeImageScale } from './image-scale.js';
 
 const imageUploadEffectLevelFieldset = document.querySelector('.img-upload__effect-level');
 const effectOriginal = document.querySelector('#effect-none');
 
+const resetImageForm = (currentForm, currentFormValidator) => {
+  currentFormValidator.reset();
+  currentForm.reset();
 const resetImageForm = (currentForm, currentFormValidator) => {
   currentFormValidator.reset();
   currentForm.reset();
