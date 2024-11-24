@@ -8,6 +8,12 @@ const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_COMMENT_LENGTH = 140;
 const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS_NUMBER = 5;
+const ErrorMessages = {
+  commentLengthError: `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`,
+  hashtagsValidateError: 'Введён невалидный хэштег',
+  hashtagsNumberError: 'Превышено количество хэштегов',
+  hashtagsRepeatError: 'Хэштеги повторяются'
+};
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -67,7 +73,7 @@ imageUploadCancel.addEventListener('click', () => {
 // Реализация валидации формы
 // Поле ввода комментария
 const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
-imageUploadValidator.addValidator(imageComment, validateComment, `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`);
+imageUploadValidator.addValidator(imageComment, validateComment, ErrorMessages.commentLengthError);
 
 // Поле ввода хэштегов
 const prepareHashtags = (value) => value.toLowerCase().trim().replace(/\s+/g, ' ').split(' ');
@@ -77,19 +83,19 @@ const validateHashtags = (value) => {
   const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
   return !hashTagsRegularityCheck || value === '';
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
+imageUploadValidator.addValidator(imageHashtags, validateHashtags, ErrorMessages.hashtagsValidateError);
 
 const validateHashtagsNumber = (value) => {
   const hashtags = prepareHashtags(value);
   return hashtags.length <= MAX_HASHTAGS_NUMBER;
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, 'Превышено количество хэштегов');
+imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, ErrorMessages.hashtagsNumberError);
 
 const validateHashtagsRepetition = (value) => {
   const hashtags = prepareHashtags(value);
   return new Set(hashtags).size === hashtags.length;
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');
+imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, ErrorMessages.hashtagsRepeatError);
 
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
