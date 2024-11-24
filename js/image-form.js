@@ -4,6 +4,7 @@ import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-
 import { resetImageForm } from './reset-image-form.js';
 import { imagePreview } from './image-scale.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_COMMENT_LENGTH = 140;
 const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS_NUMBER = 5;
@@ -47,11 +48,15 @@ imageUploadInput.addEventListener('change', () => {
   openImageUploadOverlay();
   const file = imageUploadInput.files[0];
   const fileUrl = URL.createObjectURL(file);
-  imagePreview.src = fileUrl;
+  const fileName = file.name.toLowerCase();
+  const isMatches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
-  effectsPreviews.forEach((effectsPreview) => {
-    effectsPreview.style.backgroundImage = `url("${fileUrl}")`;
-  });
+  if (isMatches) {
+    imagePreview.src = fileUrl;
+    effectsPreviews.forEach((effectsPreview) => {
+      effectsPreview.style.backgroundImage = `url("${fileUrl}")`;
+    });
+  }
 });
 
 imageUploadCancel.addEventListener('click', () => {
