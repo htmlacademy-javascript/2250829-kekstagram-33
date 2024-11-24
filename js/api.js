@@ -1,7 +1,7 @@
 const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 const Route = {
   GET_DATA: '/data',
-  SEND_DATA: ''
+  SEND_DATA: '/'
 };
 const Methods = {
   GET: 'GET',
@@ -10,7 +10,7 @@ const Methods = {
 
 const loadData = (route, method = Methods.GET, body = null) => fetch(
   `${BASE_URL}${route}`,
-  {method, body, }
+  { method, body }
 )
   .then((response) => {
     if(!response.ok) {
