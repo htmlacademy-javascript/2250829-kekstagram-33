@@ -9,10 +9,10 @@ const MAX_COMMENT_LENGTH = 140;
 const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS_NUMBER = 5;
 const ErrorMessages = {
-  commentLengthError: `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`,
-  hashtagsValidateError: 'Введён невалидный хэштег',
-  hashtagsNumberError: 'Превышено количество хэштегов',
-  hashtagsRepeatError: 'Хэштеги повторяются'
+  COMMENT_LENGTH_ERROR: `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`,
+  HASHTAGS_VALIDATE_ERROR: 'Введён невалидный хэштег',
+  HASHTAGS_NUMBER_ERROR: 'Превышено количество хэштегов',
+  HASHTAGS_REPEAT_ERROR: 'Хэштеги повторяются'
 };
 
 const imageUploadForm = document.querySelector('.img-upload__form');
@@ -73,7 +73,7 @@ imageUploadCancel.addEventListener('click', () => {
 // Реализация валидации формы
 // Поле ввода комментария
 const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
-imageUploadValidator.addValidator(imageComment, validateComment, ErrorMessages.commentLengthError);
+imageUploadValidator.addValidator(imageComment, validateComment, ErrorMessages.COMMENT_LENGTH_ERROR);
 
 // Поле ввода хэштегов
 const prepareHashtags = (value) => value.toLowerCase().trim().replace(/\s+/g, ' ').split(' ');
@@ -83,19 +83,19 @@ const validateHashtags = (value) => {
   const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
   return !hashTagsRegularityCheck || value === '';
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtags, ErrorMessages.hashtagsValidateError);
+imageUploadValidator.addValidator(imageHashtags, validateHashtags, ErrorMessages.HASHTAGS_VALIDATE_ERROR);
 
 const validateHashtagsNumber = (value) => {
   const hashtags = prepareHashtags(value);
   return hashtags.length <= MAX_HASHTAGS_NUMBER;
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, ErrorMessages.hashtagsNumberError);
+imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, ErrorMessages.HASHTAGS_NUMBER_ERROR);
 
 const validateHashtagsRepetition = (value) => {
   const hashtags = prepareHashtags(value);
   return new Set(hashtags).size === hashtags.length;
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, ErrorMessages.hashtagsRepeatError);
+imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, ErrorMessages.HASHTAGS_REPEAT_ERROR);
 
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
