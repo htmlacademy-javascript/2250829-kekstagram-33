@@ -7,6 +7,10 @@ const Methods = {
   GET: 'GET',
   POST: 'POST'
 };
+const Methods = {
+  GET: 'GET',
+  POST: 'POST'
+};
 
 const loadData = (route, method = Methods.GET, body = null) => fetch(
   `${BASE_URL}${route}`,
