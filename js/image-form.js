@@ -4,9 +4,16 @@ import { openSuccessfulSendingMessage, openErrorSendingMessage } from './status-
 import { resetImageForm } from './reset-image-form.js';
 import { imagePreview } from './image-scale.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_COMMENT_LENGTH = 140;
 const HASHTAG_REGULAR = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS_NUMBER = 5;
+const ErrorMessages = {
+  COMMENT_LENGTH_ERROR: `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`,
+  HASHTAGS_VALIDATE_ERROR: 'Введён невалидный хэштег',
+  HASHTAGS_NUMBER_ERROR: 'Превышено количество хэштегов',
+  HASHTAGS_REPEAT_ERROR: 'Хэштеги повторяются'
+};
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -47,11 +54,15 @@ imageUploadInput.addEventListener('change', () => {
   openImageUploadOverlay();
   const file = imageUploadInput.files[0];
   const fileUrl = URL.createObjectURL(file);
-  imagePreview.src = fileUrl;
+  const fileName = file.name.toLowerCase();
+  const isMatches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
-  effectsPreviews.forEach((effectsPreview) => {
-    effectsPreview.style.backgroundImage = `url("${fileUrl}")`;
-  });
+  if (isMatches) {
+    imagePreview.src = fileUrl;
+    effectsPreviews.forEach((effectsPreview) => {
+      effectsPreview.style.backgroundImage = `url("${fileUrl}")`;
+    });
+  }
 });
 
 imageUploadCancel.addEventListener('click', () => {
@@ -62,29 +73,29 @@ imageUploadCancel.addEventListener('click', () => {
 // Реализация валидации формы
 // Поле ввода комментария
 const validateComment = (value) => value.length < MAX_COMMENT_LENGTH;
-imageUploadValidator.addValidator(imageComment, validateComment, `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`);
+imageUploadValidator.addValidator(imageComment, validateComment, ErrorMessages.COMMENT_LENGTH_ERROR);
 
 // Поле ввода хэштегов
-const prepareHashtags = (value) => value.trim().replace(/\s+/g, ' ').split(' ');
+const prepareHashtags = (value) => value.toLowerCase().trim().replace(/\s+/g, ' ').split(' ');
 
 const validateHashtags = (value) => {
   const hashtags = prepareHashtags(value);
   const hashTagsRegularityCheck = hashtags.some((hashtag) => !HASHTAG_REGULAR.test(hashtag));
   return !hashTagsRegularityCheck || value === '';
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtags, 'Введён невалидный хэштег');
+imageUploadValidator.addValidator(imageHashtags, validateHashtags, ErrorMessages.HASHTAGS_VALIDATE_ERROR);
 
 const validateHashtagsNumber = (value) => {
   const hashtags = prepareHashtags(value);
   return hashtags.length <= MAX_HASHTAGS_NUMBER;
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, 'Превышено количество хэштегов');
+imageUploadValidator.addValidator(imageHashtags, validateHashtagsNumber, ErrorMessages.HASHTAGS_NUMBER_ERROR);
 
 const validateHashtagsRepetition = (value) => {
   const hashtags = prepareHashtags(value);
   return new Set(hashtags).size === hashtags.length;
 };
-imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, 'Хэштеги повторяются');
+imageUploadValidator.addValidator(imageHashtags, validateHashtagsRepetition, ErrorMessages.HASHTAGS_REPEAT_ERROR);
 
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();

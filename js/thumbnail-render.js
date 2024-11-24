@@ -19,7 +19,7 @@ const createImage = (picture, onPictureClick) => {
   return pictureLinkCloned;
 };
 
-const renderImage = (photosData, onPictureClick) => {
+const renderImages = (photosData, onPictureClick) => {
   let image = picturesContainer.querySelector('.picture');
   while (image) {
     image.remove();
@@ -32,4 +32,4 @@ const renderImage = (photosData, onPictureClick) => {
   picturesContainer.append(imagesFragment);
 };
 
-export { renderImage };
+export { renderImages };
